@@ -18,8 +18,8 @@ class ChildCollection extends ResourceCollection
         $data=[];
         foreach ($this as $obj){
             //pending,approved,rejected,unsubscribed
-            if (Subscribe::where(['child_id'=>$obj->id, 'status'=>1])->first()){
-                $subscribed='approved';
+            if (Subscribe::where('child_id',$obj->id)->first()){
+                $subscribed=Subscribe::where(['child_id'=>$obj->id])->latest()->value('status');
             }else{
                 $subscribed='unsubscribed';
             }

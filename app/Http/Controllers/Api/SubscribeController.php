@@ -67,11 +67,14 @@ class SubscribeController extends MasterController
 
         $last_subscribed_days=[];
         foreach ($subscribed_days as $subscribed_day){
-            $last_subscribed_days[$subscribed_day]=false;
+            $last_subscribed_days_obj['status']=false;
             if ($subscribed_day <= $now ){
-                $last_subscribed_days[$subscribed_day]=true;
+                $last_subscribed_days_obj['status']=true;
             }
+            $last_subscribed_days_obj['day']=$subscribed_day;
+            $last_subscribed_days[]=$last_subscribed_days_obj;
         }
+
         $package=Package::find($request['package_id']);
         $subscribe_price['real_price']=$package->price*(count($subscribed_days));
         $subscribe_price['price']=$package->price*(count($subscribed_days));
@@ -136,10 +139,12 @@ class SubscribeController extends MasterController
         $now=Carbon::now();
         $subscribed_days=[];
         foreach ($subscribe->more_details['subscribed_days'] as $subscribed_day){
-            $subscribed_days[$subscribed_day]=false;
+            $subscribed_days_obj['status']=false;
             if ($subscribed_day <= $now ){
-                $subscribed_days[$subscribed_day]=true;
+                $subscribed_days_obj['status']=true;
             }
+            $subscribed_days_obj['day']=$subscribed_day;
+            $subscribed_days[]=$subscribed_days_obj;
         }
         return $subscribed_days;
     }
@@ -210,9 +215,12 @@ class SubscribeController extends MasterController
     }
     public function subscribe_details($child_id){
         $subscribe=$this->current_subscribe($child_id);
+        if (!$subscribe)
+            return $this->sendError('ﻻ يوجد اشتراك');
+        $subscribed_days_list=$this->subscribed_days_list($subscribe);
         return $this->sendResponse([
             'package'=>PackageResource::make(Package::find($subscribe->package_id)),
-            'subscribed_days'=>$this->subscribed_days_list($subscribe),
+            'subscribed_days'=>$subscribed_days_list,
             'subscribe_price'=>$this->subscribe_price($subscribe),
         ]);
     }
@@ -237,5 +245,4 @@ class SubscribeController extends MasterController
             'subscribe_price'=>$this->subscribe_price($subscribe),
         ]);
     }
-
 }

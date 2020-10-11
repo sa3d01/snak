@@ -16,8 +16,8 @@ class ChildResource extends JsonResource
     public function toArray($request)
     {
         //pending,approved,rejected,unsubscribed
-        if (Subscribe::where(['child_id'=>$this->id, 'status'=>1])->first()){
-            $subscribed='approved';
+        if (Subscribe::where('child_id',$this->id)->first()){
+            $subscribed=Subscribe::where(['child_id'=>$this->id])->latest()->value('status');
         }else{
             $subscribed='unsubscribed';
         }
