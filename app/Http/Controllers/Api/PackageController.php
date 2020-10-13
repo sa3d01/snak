@@ -30,6 +30,13 @@ class PackageController extends MasterController
         $this->model = $model;
         parent::__construct();
     }
+    function lang(){
+        if (\request()->header('lang')){
+            return \request()->header('lang');
+        }else{
+            return 'ar';
+        }
+    }
     public function index(){
         return $this->sendResponse(PackageCollection::make(Package::active()->get()));
     }

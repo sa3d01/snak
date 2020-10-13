@@ -9,50 +9,60 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="element-wrapper">
+                        @if($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </div>
+                        @endif
                         <div class="element-box">
-                            {!! Form::open(['method'=>'post', 'files'=>true, 'enctype' => 'multipart/form-data', 'route'=>[$action], 'class' => 'formValidate']) !!}
-                            {!! Form::hidden('add_by', \Illuminate\Support\Facades\Auth::user()->id) !!}
-                            <div class="element-info">
-                                <div class="element-info-with-icon">
-                                    <div class="element-info-icon">
-                                        <div class="os-icon os-icon-wallet-loaded"></div>
-                                    </div>
-                                    <div class="element-info-text">
-                                        <h5 class="element-inner-header">
-                                            إضافة
-                                        </h5>
-                                        @if(isset($create_alert))
-                                            <div class="element-inner-desc">
-                                                {{$create_alert}}
-                                            </div>
-                                        @endif
+                            <form class="formValidate" method="POST" action="{{ route($action) }}"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                <div class="element-info">
+                                    <div class="element-info-with-icon">
+                                        <div class="element-info-icon">
+                                            <div class="os-icon os-icon-wallet-loaded"></div>
+                                        </div>
+                                        <div class="element-info-text">
+                                            <h5 class="element-inner-header">
+                                                إضافة
+                                            </h5>
+                                            @if(isset($create_alert))
+                                                <div class="element-inner-desc">
+                                                    {{$create_alert}}
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @if(isset($create_fields))
                                 <fieldset class="form-group">
-                                    <div class="row">
-                                        @foreach($create_fields as $key=>$value)
-                                            @if(isset($languages))
+                                        <div class="row">
+                                            @if(isset($create_lang_fields))
+                                                @foreach($create_lang_fields as $create_lang_field_key=>$create_lang_field_value)
                                                 @foreach($settings->languages as $lang)
-                                                    @if($value=='note')
+                                                    @if($create_lang_field_value=='note')
                                                         <div class="col-sm-12">
-                                                            <div class="form-group" id="{{$value}}">
-                                                                <label> {{$key}} </label>
-                                                                <textarea name="{{$value}}.'_'.{{$lang}}" class="form-control" cols="80" rows="10" id="ckeditor1"></textarea>
+                                                            <div class="form-group" id="{{$create_lang_field_value}}">
+                                                                <label> {{$lang}} {{$create_lang_field_key}} </label>
+                                                                <textarea name="{{$create_lang_field_value.'_'.$lang}}" class="form-control" cols="80" rows="10"></textarea>
                                                             </div>
                                                         </div>
                                                     @else
                                                         <div class="col-sm-12">
-                                                            <div class="form-group" id="{{$value}}">
-                                                                <label for=""> {{$key}}</label>
-                                                                <input name="{{$value}}.'_'.{{$lang}}" class="form-control" type="text">
+                                                            <div class="form-group" id="{{$create_lang_field_value}}">
+                                                                <label> {{$lang}} {{$create_lang_field_key}} </label>
+                                                                <input name="{{$create_lang_field_value.'_'.$lang}}" class="form-control" type="text">
                                                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                                                             </div>
                                                         </div>
                                                     @endif
                                                 @endforeach
-                                            @else
+                                                @endforeach
+                                            @endif
+                                            @foreach($create_fields as $key=>$value)
                                                 @if($value=='note')
                                                     <div class="col-sm-12">
                                                         <div class="form-group" id="{{$value}}">
@@ -60,19 +70,55 @@
                                                             <textarea name="{{$value}}" class="form-control" cols="80" rows="5"></textarea>
                                                         </div>
                                                     </div>
+                                                @elseif(strpos($value, 'price'))
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group" id="{{$value}}">
+                                                            <label for=""> {{$key}}</label>
+                                                            <input name="{{$value}}" class="form-control" type="number" min="1">
+                                                            <div class="help-block form-text with-errors form-control-feedback"></div>
+                                                        </div>
+                                                    </div>
+                                                @elseif($value=='start_date' || $value=='end_date')
+                                                    <div class="col-sm-12" id="{{$value}}">
+                                                        <div class="form-group row">
+                                                            <label for="{{$value}}" class="col-2 col-form-label">{{$key}}</label>
+                                                            <input name="{{$value}}" class="form-control" type="datetime-local" id="{{$value}}">
+                                                        </div>
+                                                    </div>
+                                                @elseif($value=='images')
+                                                    <div class="col-sm-12" id="{{$value}}">
+                                                        <div class="form-group row">
+                                                            <label for="{{$value}}" class="col-form-label">{{$key}}</label>
+                                                            <input required class="upload form-control" id="uploadFile" type="file" accept="image/*" name="images[]" multiple />
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div class="form-group" id="image_preview"></div>
+                                                @elseif($value=='role')
+                                                    <div class="col-sm-12" id="roles">
+                                                        <div class="form-group">
+                                                            <label for=""> الدور </label>
+                                                            <select id="role_id" name="role_id" class="form-control">
+                                                                @foreach(\Spatie\Permission\Models\Role::all() as $role)
+                                                                    <option value="{{$role->id}}">
+                                                                        {{$role->blank}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 @else
                                                     <div class="col-sm-12">
                                                         <div class="form-group" id="{{$value}}">
                                                             <label for=""> {{$key}}</label>
-                                                            <input name="{{$value}}" class="form-control" type="text">
+                                                            <input  id="{{$value}}" name="{{$value}}" class="form-control" type="text">
                                                             <div class="help-block form-text with-errors form-control-feedback"></div>
                                                         </div>
                                                     </div>
                                                 @endif
-                                            @endif
-                                        @endforeach
+                                            @endforeach
                                             @if(isset($password))
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <div class="form-group">
                                                         <label for=""> كلمة المرور</label><input name="password" class="form-control" data-minlength="6" placeholder="كلمة المرور" type="password">
                                                         <div class="help-block form-text text-muted form-control-feedback">
@@ -82,88 +128,82 @@
                                                 </div>
                                             @endif
                                             @if(isset($image))
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <div class="white-box">
                                                         <label for="input-file-now-custom-1">الصورة</label>
-                                                        <input name="image" type="file" id="input-file-now-custom-1 image" class="dropify" data-default-file="{{asset('media/images/user/default.jpeg')}}"/>
+                                                        <input name="image" type="file" id="input-file-now-custom-1 image" class="dropify" data-default-file="{{asset('media/images/logo.png')}}"/>
                                                     </div>
                                                 </div>
                                             @endif
-                                    </div>
-                                </fieldset>
-                            @endif
-                            <fieldset>
-                                <div class="row">
-                                    @if(isset($date))
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for=""> Date of Birth</label><input class="single-daterange form-control" placeholder="Date of birth" type="text" value="04/12/1978">
-                                            </div>
+                                            @if(isset($selects))
+                                                @foreach($selects as $select)
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label for=""> {{$select['title']}} </label>
+                                                            <select id="{{$select['input_name']}}" name="{{$select['input_name']}}" class="form-control">
+                                                                @foreach($select['rows'] as $row)
+                                                                    <option value="{{$row->id}}">
+                                                                        {{$row->nameForSelect()}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                            @if(isset($multi_select))
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for=""> {{$multi_select['title']}}</label>
+                                                        <select name="{{$multi_select['input_name']}}[]" class="form-control select2" multiple="true">
+                                                            @foreach($multi_select['rows'] as $multi_select_row)
+                                                                <option value="{{$multi_select_row->id}}" @if($loop->first) selected="true" @endif>
+                                                                    {{$multi_select_row->nameForSelect()}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @if(isset($permissions))
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for=""> الصلاحيات</label>
+                                                        <select name="permissions[]" class="form-control select2" multiple="true">
+                                                            @foreach(\Spatie\Permission\Models\Permission::all() as $permission)
+                                                                <option value="{{$permission->name}}" @if($loop->first) selected="true" @endif>
+                                                                    {{$permission->blank}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
-                                    @endif
-                                    @if(isset($select))
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for=""> Regular select</label>
-                                                <select class="form-control">
-                                                    <option value="New York">
-                                                        New York
-                                                    </option>
-                                                    <option value="California">
-                                                        California
-                                                    </option>
-                                                    <option value="Boston">
-                                                        Boston
-                                                    </option>
-                                                    <option value="Texas">
-                                                        Texas
-                                                    </option>
-                                                    <option value="Colorado">
-                                                        Colorado
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    @endif
-                                    @if(isset($multi_select))
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for=""> Multiselect</label>
-                                                <select class="form-control select2" multiple="true">
-                                                    <option selected="true">
-                                                        New York
-                                                    </option>
-                                                    <option selected="true">
-                                                        California
-                                                    </option>
-                                                    <option>
-                                                        Boston
-                                                    </option>
-                                                    <option>
-                                                        Texas
-                                                    </option>
-                                                    <option>
-                                                        Colorado
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    @endif
+                                    </fieldset>
+                                <div class="form-buttons-w">
+                                    <button class="btn btn-primary create-submit" type="submit"> إضافة</button>
                                 </div>
-                            </fieldset>
-                            <div class="form-buttons-w">
-                                <button class="btn btn-primary create-submit" type="submit"> إضافة</button>
-                            </div>
-                            {!! Form::close() !!}
+                            </form>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 @endsection
 @section('script')
+    <script type="text/javascript">
+        $("#uploadFile").change(function(){
+            $('#image_preview').html("");
+            var total_file=document.getElementById("uploadFile").files.length;
+            for(var i=0;i<total_file;i++)
+            {
+                $('#image_preview').append("<img style='pointer-events: none;max-height: 100px;max-width: 100px;height: 100px;border-radius: 10px;margin: 5px;' src='"+URL.createObjectURL(event.target.files[i])+"'>");
+            }
+        });
+    </script>
+
     <script src="{{asset('panel/dropify/dist/js/dropify.min.js')}}"></script>
     <script>
         $(document).ready(function() {

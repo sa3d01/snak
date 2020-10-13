@@ -28,14 +28,15 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
 
     Route::get('/admin/{id}', 'AdminController@show')->name('profile');
     Route::post('/admin/{id}', 'AdminController@update')->name('update');
+    Route::get('admin/activate/{id}', 'AdminController@activate')->name('admin.activate');
 
     Route::post('user/{id}', 'UserController@update')->name('user.update');
     Route::resource('user', 'UserController');
     Route::get('user/activate/{id}', 'UserController@activate')->name('user.activate');
 
-    Route::post('page/{id}', 'PageController@update')->name('page.update');
-    Route::resource('page', 'PageController');
-    Route::get('page/activate/{id}', 'PageController@activate')->name('page.activate');
+    Route::post('package/{id}', 'PackageController@update')->name('package.update');
+    Route::resource('package', 'PackageController');
+    Route::get('package/activate/{id}', 'PackageController@activate')->name('package.activate');
 
 
 

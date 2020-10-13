@@ -6,6 +6,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PackageResource extends JsonResource
 {
+    function lang(){
+        if (\request()->header('lang')){
+            return \request()->header('lang');
+        }else{
+            return 'ar';
+        }
+    }
     /**
      * Transform the resource into an array.
      *
@@ -20,8 +27,8 @@ class PackageResource extends JsonResource
         }
         return [
             'id'=> (int)$this->id,
-            'name'=> $this->name['ar'],
-            'note'=> $this->note['ar'],
+            'name'=> $this->name[$this->lang()],
+            'note'=> $this->note[$this->lang()],
             'price'=>(double)$this->price,
             'color'=>$this->color,
             'images'=>$images

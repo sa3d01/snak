@@ -19,5 +19,24 @@ class Package extends Model
         'note' => 'json',
         'images' => 'array',
     ];
+    public function activate()
+    {
+        $action = route('admin.package.activate', ['id' => $this->attributes['id']]);
+        if ($this->attributes['status'] === null || $this->attributes['status'] === 0) {
+            $name = 'تفعيل';
+            $key = 'success';
+            $icon = 'check';
+            $class = '';
+        } else {
+            $name = 'حظر';
+            $key = 'danger';
+            $icon = 'cancel';
+            $class = 'block';
+        }
+        return "<a class='$class btn btn-$key btn-sm' data-href='$action' href='$action'><i class='os-icon os-icon-$icon-circle'></i><span>$name</span></a>";
+    }
+    public function imagesArray(){
+        return $this->attributes['images'];
+    }
 
 }

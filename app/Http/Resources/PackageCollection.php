@@ -6,6 +6,13 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PackageCollection extends ResourceCollection
 {
+    function lang(){
+        if (\request()->header('lang')){
+            return \request()->header('lang');
+        }else{
+            return 'ar';
+        }
+    }
     /**
      * Transform the resource collection into an array.
      *
@@ -22,8 +29,8 @@ class PackageCollection extends ResourceCollection
                 $images[]=asset('media/images/package/'). '/' . $image;
             }
             $arr['id']=(int)$obj->id;
-            $arr['name']=$obj->name['ar'];
-            $arr['note']=$obj->note['ar'];
+            $arr['name']=$obj->name[$this->lang()];
+            $arr['note']=$obj->note[$this->lang()];
             $arr['price']=(double)$obj->price;
             $arr['color']=$obj->color;
             $arr['images']=$images;

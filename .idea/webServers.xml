@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="cf283609-495d-4bdb-a0ed-5f633570920c" name="snake_wagdy" url="https://mowagdy.com">
+        <fileTransfer rootFolder="/public_html/sa3d01/snak" host="mowagdy.com" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="961459ab-c945-4e08-ab73-a30bee84b8ef" name="digitalOcean" url="http://159.89.24.135">
+        <fileTransfer rootFolder="/var/www/html" accessType="SFTP" host="159.89.24.135" port="22" sshConfigId="52069fac-376b-4975-8205-45ab51e65d52" sshConfig="root@159.89.24.135:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" showHiddenFiles="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

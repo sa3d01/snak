@@ -17,59 +17,94 @@
                     <h5 class="form-header">
                         {{$title}}
                     </h5>
+                    <div class="form-buttons-w">
+                        <a href="{{route('admin.'.$type.'.create')}}" class="btn btn-primary create-submit" ><label>+</label> إضافة</a>
+                    </div>
                     <div  class="table-responsive">
                         <table id="datatable" width="100%" class="table table-striped table-lightfont">
                             <thead>
-                                <tr>
-                                    <th hidden></th>
-                                    @foreach($index_fields as $key=>$value)
-                                        <th>{{$key}}</th>
-                                    @endforeach
-                                    @if(isset($status))
-                                        <th>الحالة</th>
-                                    @endif
-                                    @if(isset($image))
-                                        <th>الصورة</th>
-                                    @endif
-                                    <th>المزيد</th>
-                                </tr>
+                            <tr>
+                                <th hidden></th>
+                                @foreach($index_fields as $key=>$value)
+                                    <th>{{$key}}</th>
+                                @endforeach
+                                @if(isset($status))
+                                    <th>الحالة</th>
+                                @endif
+                                @if(isset($image) || isset($images))
+                                    <th>الصورة</th>
+                                @endif
+                                <th>المزيد</th>
+                            </tr>
                             </thead>
                             <tfoot>
-                                <tr>
-                                    <th hidden></th>
-                                    @foreach($index_fields as $key=>$value)
+                            <tr>
+                                <th hidden></th>
+                                @foreach($index_fields as $key=>$value)
                                     <th>{{$key}}</th>
-                                    @endforeach
-                                    @if(isset($status))
-                                        <th>الحالة</th>
-                                    @endif
-                                    @if(isset($image))
-                                        <th>الصورة</th>
-                                    @endif
-                                    <th>المزيد</th>
-                                </tr>
+                                @endforeach
+                                @if(isset($status))
+                                    <th>الحالة</th>
+                                @endif
+                                @if(isset($image) || isset($images))
+                                    <th>الصورة</th>
+                                @endif
+                                <th>المزيد</th>
+                            </tr>
                             </tfoot>
                             <tbody>
                             @foreach($rows as $row)
                                 <tr>
                                     <td hidden>{{$row->id}}</td>
-                                @foreach($index_fields as $key=>$value)
-                                    @if($value=='created_at')
-                                        <td>{{$row->published_at()}}</td>
-                                    @else
-                                        <td>{{$row->$value}}</td>
-                                    @endif
-                                @endforeach
+                                    @foreach($index_fields as $key=>$value)
+                                        @if($value=='created_at')
+                                            <td>{{$row->published_at()}}</td>
+                                        @elseif($value=='start_date' || $value=='end_date')
+                                            <td>{{$row->showTimeStampDate($row->$value)}}</td>
+                                        @elseif($value=='role')
+                                            @if($row->hasRole(\Spatie\Permission\Models\Role::all()))
+                                                <td>{{$row->getRoleArabicName()}}</td>
+                                            @else
+                                                ﻻ يمتلك أي صﻻحيات حتى الآن
+                                            @endif
+                                        @elseif($type=='role' && $value=='users_count')
+                                            <td>{{$row->users()->count()}}</td>
+                                        @else
+                                            @if(is_array($row->$value))
+                                                <td>{{$row->$value['ar']}}</td>
+                                            @else
+                                                <td>{{$row->$value}}</td>
+                                            @endif
+                                        @endif
+                                    @endforeach
                                     @if(isset($status))
                                         <td>
-                                        {!!$row->getStatusIcon()!!}
+                                            {!!$row->getStatusIcon()!!}
                                         </td>
                                     @endif
                                     @if(isset($image))
                                         <td><img width="50px" height="50px" src="{{$row->image}}"></td>
+                                    @elseif(isset($images))
+                                        <td><img style="border-radius: 10px;" width="50px" height="50px" src="{{asset('media/images/').'/'.$type.'/'.$row->images[0]}}"></td>
                                     @endif
                                     <td>
-                                        <a href="{{route('admin.'.$type.'.show',$row->id)}}"><i class="os-icon os-icon-grid-10"></i></a>
+                                        <div class=" row border-0">
+                                            <div class="col-sm-3 mx-auto text-center">
+                                                <a href="{{route('admin.'.$type.'.show',$row->id)}}"><i class="os-icon os-icon-grid-10"></i></a>
+                                            </div>
+{{--                                            @if($type=='user' || $type=='ask')--}}
+{{--                                                @can('delete-'.$type.'s')--}}
+{{--                                                    <div class="col-sm-3 mx-auto text-center p-0">--}}
+{{--                                                        {!! Form::open(['method' => 'DELETE','data-id'=>$row->id, 'route' => ['admin.'.$type.'.destroy',$row->id],'class'=>'delete']) !!}--}}
+{{--                                                        {!! Form::hidden('id', $row->id) !!}--}}
+{{--                                                        <button type="button " class="btn p-0 no-bg">--}}
+{{--                                                            <i class="fa fa-trash text-danger"></i>--}}
+{{--                                                        </button>--}}
+{{--                                                        {!! Form::close() !!}--}}
+{{--                                                    </div>--}}
+{{--                                                @endcan--}}
+{{--                                            @endif--}}
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -85,7 +120,7 @@
     <script>
         $(function() {
             var Table = $('#datatable').DataTable({
-                "order": [[ 1, "asc" ]],
+                "order": [[ 0, "desc" ]],
                 "oLanguage": {
                     "sEmptyTable":     "ليست هناك بيانات متاحة في الجدول",
                     "sLoadingRecords": "جارٍ التحميل...",
@@ -145,6 +180,27 @@
             });
         });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script>
+        $(document).on('click', '.delete', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            Swal.fire({
+                title: "هل انت متأكد من الحذف ؟",
+                text: "لن تستطيع استعادة هذا العنصر مرة أخرى!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: 'btn-danger',
+                confirmButtonText: 'نعم , قم بالحذف!',
+                cancelButtonText: 'ﻻ , الغى عملية الحذف!',
+                closeOnConfirm: false,
+                closeOnCancel: false,
+                preConfirm: () => {
+                    $("form[data-id='" + id + "']").submit();
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+        });
+    </script>
 @endsection
 
