@@ -20,6 +20,9 @@ class Child extends Model
     ];
 
 
+    public function nameForSelect(){
+        return $this->name;
+    }
     //relations
 
     public function parent(){

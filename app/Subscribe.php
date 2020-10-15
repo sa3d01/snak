@@ -16,6 +16,9 @@ class Subscribe extends Model
         'more_details' => 'json',
         'days' => 'array',
     ];
+    public function child(){
+        return $this->belongsTo(Child::class);
+    }
 
 
 }

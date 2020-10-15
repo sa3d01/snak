@@ -6,6 +6,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class DropDownResource extends JsonResource
 {
+    function lang(){
+        if (\request()->header('lang')){
+            return \request()->header('lang');
+        }else{
+            return 'ar';
+        }
+    }
     /**
      * Transform the resource into an array.
      *
@@ -16,7 +23,7 @@ class DropDownResource extends JsonResource
     {
         return [
             'id'=> (int)$this->id,
-            'name'=> $this->name['ar'],
+            'name'=> $this->name[$this->lang()],
         ];
     }
 }

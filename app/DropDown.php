@@ -17,4 +17,10 @@ class DropDown extends Model
         'more_details' => 'json',
         'name' => 'json',
     ];
+    public function nameForSelect(){
+        return $this->name['ar'];
+    }
+    public function parent(){
+        return $this->belongsTo(DropDown::class,'parent_id','id');
+    }
 }

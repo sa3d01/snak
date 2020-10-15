@@ -52,10 +52,16 @@ trait ModelBaseFunctions
 
     public function getStatusIcon()
     {
-        if ($this->attributes['status'] === null) {
+        if ($this->attributes['status'] === 'pending') {
             $name = 'معلق';
             $key = 'warning';
-        } elseif ($this->attributes['status'] === 0) {
+        } elseif ($this->attributes['status'] === 'approved') {
+            $name = 'مشترك';
+            $key = 'success';
+        }elseif ($this->attributes['status'] === 'rejected') {
+            $name = 'مرفوض';
+            $key = 'danger';
+        }elseif ($this->attributes['status'] === 0) {
             $name = 'محظور';
             $key = 'danger';
         } else {

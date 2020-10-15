@@ -31,6 +31,11 @@
                                 @if(isset($status))
                                     <th>الحالة</th>
                                 @endif
+                                @if(isset($selects))
+                                    @foreach($selects as $select)
+                                        <th>{{$select['title']}}</th>
+                                    @endforeach
+                                @endif
                                 @if(isset($image) || isset($images))
                                     <th>الصورة</th>
                                 @endif
@@ -46,6 +51,11 @@
                                 @if(isset($status))
                                     <th>الحالة</th>
                                 @endif
+                                @if(isset($selects))
+                                    @foreach($selects as $select)
+                                        <th>{{$select['title']}}</th>
+                                    @endforeach
+                                @endif
                                 @if(isset($image) || isset($images))
                                     <th>الصورة</th>
                                 @endif
@@ -59,6 +69,16 @@
                                     @foreach($index_fields as $key=>$value)
                                         @if($value=='created_at')
                                             <td>{{$row->published_at()}}</td>
+                                        @elseif(substr($value, "-3")=='_id')
+                                            @php
+                                                $related_model=substr_replace($value, "", -3);
+                                                try {
+                                                    $related_model_val=$row->$related_model->name['ar'];
+                                                }catch (Exception $e){
+                                                    $related_model_val='';
+                                                }
+                                            @endphp
+                                            <td>{{$related_model_val}}</td>
                                         @elseif($value=='start_date' || $value=='end_date')
                                             <td>{{$row->showTimeStampDate($row->$value)}}</td>
                                         @elseif($value=='role')
@@ -77,6 +97,12 @@
                                             @endif
                                         @endif
                                     @endforeach
+                                    @if(isset($selects))
+                                        @foreach($selects as $select)
+                                            @php($related_model=$select['name'])
+                                            <td>{{$row->$related_model ? $row->$related_model->nameForSelect() : ''}}</td>
+                                        @endforeach
+                                    @endif
                                     @if(isset($status))
                                         <td>
                                             {!!$row->getStatusIcon()!!}
@@ -92,18 +118,6 @@
                                             <div class="col-sm-3 mx-auto text-center">
                                                 <a href="{{route('admin.'.$type.'.show',$row->id)}}"><i class="os-icon os-icon-grid-10"></i></a>
                                             </div>
-{{--                                            @if($type=='user' || $type=='ask')--}}
-{{--                                                @can('delete-'.$type.'s')--}}
-{{--                                                    <div class="col-sm-3 mx-auto text-center p-0">--}}
-{{--                                                        {!! Form::open(['method' => 'DELETE','data-id'=>$row->id, 'route' => ['admin.'.$type.'.destroy',$row->id],'class'=>'delete']) !!}--}}
-{{--                                                        {!! Form::hidden('id', $row->id) !!}--}}
-{{--                                                        <button type="button " class="btn p-0 no-bg">--}}
-{{--                                                            <i class="fa fa-trash text-danger"></i>--}}
-{{--                                                        </button>--}}
-{{--                                                        {!! Form::close() !!}--}}
-{{--                                                    </div>--}}
-{{--                                                @endcan--}}
-{{--                                            @endif--}}
                                         </div>
                                     </td>
                                 </tr>
