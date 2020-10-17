@@ -21,16 +21,20 @@ class SubscribeController extends MasterController
 
     public function index()
     {
-        $rows = $this->model->all();
-        return View('dashboard.index.index', [
+        $rows = $this->model->latest()->get();
+        return View('dashboard.subscribe.index', [
             'rows' => $rows,
             'type'=>'subscribe',
             'title'=>'الاشتراكات',
-            'index_fields'=>['ID' => 'id','تاريخ الطلب'=>'created_at'],
+            'index_fields'=>['ID' => 'id'],
             'selects'=>[
                 [
                     'name'=>'child',
                     'title'=>'الطفل'
+                ],
+                [
+                    'name'=>'package',
+                    'title'=>'الباقة'
                 ],
             ],
             'status'=>true,
@@ -51,49 +55,23 @@ class SubscribeController extends MasterController
 
     public function show($id)
     {
-        $row = DropDown::findOrFail($id);
-        return View('dashboard.show.show', [
+        $row = Subscribe::findOrFail($id);
+        return View('dashboard.subscribe.show', [
             'row' => $row,
-            'type'=>'School',
-            'action'=>'admin.School.update',
-            'title'=>'مدرسة أو حضانة',
-            'edit_fields'=>[],
-            'edit_lang_fields'=>['الاسم' => 'name'],
+            'type'=>'subscribe',
+            'action'=>'admin.subscribe.update',
+            'title'=>'اشتراك',
+            'show_fields'=>[],
+
             'status'=>true,
         ]);
     }
 
-    public function activate($id){
+    public function pay($id){
         $row=$this->model->find($id);
-        if($row->status==1){
-            $history[date('Y-m-d')]['block']=[
-                'time'=>date('H:i:s'),
-                'admin_id'=>Auth::user()->id,
-            ];
-            $row->update(
-                [
-                    'status'=>0,
-                    'more_details'=>[
-                        'history'=>$history,
-                    ],
-                ]
-            );
-        }else{
-            $history[date('Y-m-d')]['approve']=[
-                'time'=>date('H:i:s'),
-                'admin_id'=>Auth::user()->id,
-            ];
-            $row->update(
-                [
-                    'status'=>1,
-                    'more_details'=>[
-                        'history'=>$history,
-                    ],
-                ]
-            );
-        }
-        $row->refresh();
-        $row->refresh();
+        $row->update([
+           'status'=>'approved'
+        ]);
         $row->refresh();
         return redirect()->back()->with('updated');
     }

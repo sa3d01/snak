@@ -38,5 +38,8 @@ class Package extends Model
     public function imagesArray(){
         return $this->attributes['images'];
     }
+    public function nameForSelect(){
+        return $this->name['ar'];
+    }
 
 }

@@ -15,6 +15,13 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('receiver_id')->nullable();
+            $table->text('note')->nullable();
+            $table->enum('read',['true','false'])->default('false');
+            $table->enum('type',['admin','app'])->default('admin');
+            $table->enum('admin_notify_type',['user','provider','all','single'])->default('single');
+            $table->json('receivers')->nullable();
+            $table->json('more_details')->nullable();
             $table->timestamps();
         });
     }

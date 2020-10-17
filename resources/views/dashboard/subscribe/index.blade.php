@@ -30,17 +30,13 @@
                                 @foreach($index_fields as $key=>$value)
                                     <th>{{$key}}</th>
                                 @endforeach
-                                @if(isset($status))
-                                    <th>الحالة</th>
-                                @endif
-                                @if(isset($selects))
-                                    @foreach($selects as $select)
-                                        <th>{{$select['title']}}</th>
-                                    @endforeach
-                                @endif
-                                @if(isset($image) || isset($images))
-                                    <th>الصورة</th>
-                                @endif
+                                @foreach($selects as $select)
+                                    <th>{{$select['title']}}</th>
+                                @endforeach
+                                <th>عدد الأيام</th>
+                                <th>تاريخ الوجبة الأولى</th>
+                                <th>سعر الاشتراك</th>
+                                <th>الحالة</th>
                                 <th>المزيد</th>
                             </tr>
                             </thead>
@@ -50,17 +46,13 @@
                                 @foreach($index_fields as $key=>$value)
                                     <th>{{$key}}</th>
                                 @endforeach
-                                @if(isset($status))
-                                    <th>الحالة</th>
-                                @endif
-                                @if(isset($selects))
-                                    @foreach($selects as $select)
-                                        <th>{{$select['title']}}</th>
-                                    @endforeach
-                                @endif
-                                @if(isset($image) || isset($images))
-                                    <th>الصورة</th>
-                                @endif
+                                @foreach($selects as $select)
+                                    <th>{{$select['title']}}</th>
+                                @endforeach
+                                <th>عدد الأيام</th>
+                                <th>تاريخ الوجبة الأولى</th>
+                                <th>سعر الاشتراك</th>
+                                <th>الحالة</th>
                                 <th>المزيد</th>
                             </tr>
                             </tfoot>
@@ -71,26 +63,8 @@
                                     @foreach($index_fields as $key=>$value)
                                         @if($value=='created_at')
                                             <td>{{$row->published_at()}}</td>
-                                        @elseif(substr($value, "-3")=='_id')
-                                            @php
-                                                $related_model=substr_replace($value, "", -3);
-                                                try {
-                                                    $related_model_val=$row->$related_model->name['ar'];
-                                                }catch (Exception $e){
-                                                    $related_model_val='';
-                                                }
-                                            @endphp
-                                            <td>{{$related_model_val}}</td>
                                         @elseif($value=='start_date' || $value=='end_date')
                                             <td>{{$row->showTimeStampDate($row->$value)}}</td>
-                                        @elseif($value=='role')
-                                            @if($row->hasRole(\Spatie\Permission\Models\Role::all()))
-                                                <td>{{$row->getRoleArabicName()}}</td>
-                                            @else
-                                                ﻻ يمتلك أي صﻻحيات حتى الآن
-                                            @endif
-                                        @elseif($type=='role' && $value=='users_count')
-                                            <td>{{$row->users()->count()}}</td>
                                         @else
                                             @if(is_array($row->$value))
                                                 <td>{{$row->$value['ar']}}</td>
@@ -99,22 +73,16 @@
                                             @endif
                                         @endif
                                     @endforeach
-                                    @if(isset($status))
-                                        <td>
-                                            {!!$row->getStatusIcon()!!}
-                                        </td>
-                                    @endif
-                                    @if(isset($selects))
-                                        @foreach($selects as $select)
-                                            @php($related_model=$select['name'])
-                                            <td><a href="{{route('admin.'.$related_model.'.show',$row->$related_model->id)}}"> {{$row->$related_model ? $row->$related_model->nameForSelect() : ''}}</a></td>
-                                        @endforeach
-                                    @endif
-                                    @if(isset($image))
-                                        <td><img width="50px" height="50px" src="{{$row->image}}"></td>
-                                    @elseif(isset($images))
-                                        <td><img style="border-radius: 10px;" width="50px" height="50px" src="{{asset('media/images/').'/'.$type.'/'.$row->images[0]}}"></td>
-                                    @endif
+                                    @foreach($selects as $select)
+                                        @php($related_model=$select['name'])
+                                        <td><a href="{{route('admin.'.$related_model.'.show',$row->$related_model->id)}}"> {{$row->$related_model ? $row->$related_model->nameForSelect() : ''}}</a></td>
+                                    @endforeach
+                                    <td>{{count($row->more_details['subscribed_days'])}} أيام </td>
+                                    <td>{{$row->ArabicDate($row->more_details['first_day'])}}</td>
+                                    <td>{{$row->more_details['subscribe_price']['price']}} جنيه </td>
+                                    <td>
+                                        {!!$row->getStatusIcon()!!}
+                                    </td>
                                     <td>
                                         <div class=" row border-0">
                                             <div class="col-sm-3 mx-auto text-center">

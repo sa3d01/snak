@@ -2,27 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Child;
 use App\DropDown;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\ChildCollection;
-use App\Http\Resources\ChildResource;
 use App\Http\Resources\DropDownCollection;
-use App\Http\Resources\PackageCollection;
 use App\Http\Resources\PackageResource;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
 use App\Package;
 use App\PromoCode;
 use App\Subscribe;
-use App\User;
-use App\userType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 class SubscribeController extends MasterController
 {
@@ -186,6 +174,13 @@ class SubscribeController extends MasterController
                 'subscribed_days'=>$subscribed_days,
             ];
         $subscribe=$this->model->create($data);
+        $subscribe->update([
+            'more_details'=>[
+                'first_day'=>$dateOfFirstDay->format('Y-m-d'),
+                'subscribed_days'=>$subscribed_days,
+                'subscribe_price'=>$this->subscribe_price($subscribe),
+            ]
+        ]);
         return $this->sendResponse(
             [
                 'package'=>PackageResource::make(Package::find($request['package_id'])),
