@@ -1,5 +1,34 @@
 <ul class="main-menu">
     <li class="sub-header">
+        <span>الأعضاء</span>
+    </li>
+    <li class=" has-sub-menu">
+        <a href="#">
+            <div class="icon-w">
+                <div class="os-icon os-icon-user-male-circle"></div>
+            </div>
+            <span>الأعضاء</span></a>
+        <div class="sub-menu-w">
+            <div class="sub-menu-header">
+                الأعضاء
+            </div>
+            <div class="sub-menu-icon">
+                <i class="os-icon os-icon-user-male-circle"></i>
+            </div>
+            <div class="sub-menu-i">
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{route('admin.user.index')}}">قائمة البيانات</a>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.user.create')}}">اضافة </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </li>
+
+    <li class="sub-header">
         <span>الباقات</span>
     </li>
     <li class=" has-sub-menu">
@@ -152,5 +181,43 @@
                 </ul>
             </div>
         </div>
+    </li>
+
+    <li class="sub-header">
+        <span>الاشعارات الجماعية </span>
+    </li>
+    <li class=" has-sub-menu">
+        <a href="#">
+            <div class="icon-w">
+                <div class="os-icon os-icon-alert-octagon"></div>
+            </div>
+            <span>الاشعارات الجماعية </span></a>
+        <div class="sub-menu-w">
+            <div class="sub-menu-header">
+                الاشعارات الجماعية
+            </div>
+            <div class="sub-menu-icon">
+                <i class="os-icon os-icon-alert-octagon"></i>
+            </div>
+            <div class="sub-menu-i">
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{route('admin.notification.admin_notify_type',['admin_notify_type'=>'all'])}}"> الاشعارات العامة  </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </li>
+
+    <li class="sub-header">
+        <span>رسائل الأعضاء</span>
+    </li>
+    <li class="sub-menu">
+        <a href="{{route('admin.contact.index')}}">
+            <div class="icon-w">
+                <div class="os-icon os-icon-email-2-at"></div>
+            </div>
+            <span>رسائل الأعضاء</span>
+        </a>
     </li>
 </ul>

@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'secret' => 'b5gkeAGca2WdCurmggpaZXbxjF60GoHzJGKfuyyoP9K5EPknixVj72aW86WGZtLM',
+    'secret' => 'SlI9az6314QnQQbBIZuu8OHcrdsnGhwdX9APbPhr9p31iHbIL52pRdNYXDlpNKNy',
 
     /*
     |--------------------------------------------------------------------------

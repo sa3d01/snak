@@ -38,7 +38,7 @@ class PackageController extends MasterController
         }
     }
     public function index(){
-        return $this->sendResponse(PackageCollection::make(Package::active()->get()));
+        return $this->sendResponse(PackageCollection::make(Package::active()->latest()->get()));
     }
     public function show($id){
         return $this->sendResponse(PackageResource::make(Package::find($id)));

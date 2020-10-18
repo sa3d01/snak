@@ -52,7 +52,14 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::get('subscribe/pay/{id}', 'SubscribeController@pay')->name('subscribe.pay');
     Route::resource('child', 'ChildController');
 
+    Route::get('notification/admin_notify_type/{admin_notify_type}', 'NotificationController@notifications')->name('notification.admin_notify_type');
+    Route::resource('notification', 'NotificationController');
 
+    Route::get('show_single_contact/{id}', 'ContactController@show_single_contact');
+    Route::get('single_contact_form/{user_id}/{contact_id}', 'ContactController@single_contact_form')->name('contact.form');
+    Route::post('send_single_contact', 'ContactController@send_single_contact')->name('contact.send');
+    Route::resource('contact', 'ContactController');
+    Route::get('send_single_notify/{receiver_id}/{note}', 'ContactController@send_single_notify');
 
 });
 Auth::routes();

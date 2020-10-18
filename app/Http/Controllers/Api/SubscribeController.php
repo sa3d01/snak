@@ -138,7 +138,7 @@ class SubscribeController extends MasterController
     }
     //methods
     public function break_list(){
-        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where('class','Break')->get()));
+        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where('class','Break')->latest()->get()));
     }
     public function store(Request $request)
     {

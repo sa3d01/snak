@@ -69,12 +69,14 @@ class UserController extends MasterController
         if ($token){
             $user=auth()->user();
             if ($request->device){
-                $user->update([
-                    'device'=>[
-                        'id'=>$request->device['id'],
-                        'type'=>$request->device['type'],
-                    ]
-                ]);
+                if (array_key_exists('id',$request->device)) {
+                    $user->update([
+                        'device'=>[
+                            'id'=>$request->device['id'],
+                            'type'=>$request->device['type'],
+                        ]
+                    ]);
+                }
             }
             $data['id']=(int) $user->id;
             $data['name']= $user->name;
