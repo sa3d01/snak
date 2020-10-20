@@ -181,6 +181,12 @@ class SubscribeController extends MasterController
                 'subscribe_price'=>$this->subscribe_price($subscribe),
             ]
         ]);
+        $promo_code=PromoCode::find($request['promo_code_id']);
+        if ($promo_code){
+            $promo_code->update([
+               'used'=> $promo_code->used+1
+            ]);
+        }
         return $this->sendResponse(
             [
                 'package'=>PackageResource::make(Package::find($request['package_id'])),

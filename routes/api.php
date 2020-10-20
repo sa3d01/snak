@@ -36,6 +36,7 @@ Route::group(['prefix' => 'v1','namespace'=>'Api'], function () {
         Route::get('school_type/{id}/school', 'ChildController@schools')->middleware(CheckApiToken::class);
         Route::post('/', 'ChildController@store')->middleware(CheckApiToken::class);
         Route::get('/', 'ChildController@index')->middleware(CheckApiToken::class);
+        Route::put('/{id}', 'ChildController@update')->middleware(CheckApiToken::class);
         Route::get('/{id}', 'ChildController@show')->middleware(CheckApiToken::class);
         Route::delete('/{id}', 'ChildController@destroy')->middleware(CheckApiToken::class);
     });

@@ -28,12 +28,12 @@ class ChildResource extends JsonResource
             'grade'=>DropDownResource::make($this->grade),
             'section_name'=>$this->section_name ?? '',
             'school'=>DropDownResource::make($this->school),
+            'subscribed'=>$subscribed,
             'birth_date'=>$this->birth_date ?? '',
             'child_like'=>$this->child_like ?? '',
             'child_dislike'=>$this->child_dislike ?? '',
             'health_warnings'=>$this->health_warnings ?? '',
             'additional_notes'=>$this->additional_notes ?? '',
-            'subscribed'=>$subscribed
 
         ];
     }

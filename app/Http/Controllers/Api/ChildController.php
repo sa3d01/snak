@@ -40,7 +40,7 @@ class ChildController extends MasterController
         return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'schoolGrade','parent_id'=>$id])->get()));
     }
     public function schools($id){
-        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'school','parent_id'=>$id])->get()));
+        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'School','parent_id'=>$id])->get()));
     }
     public function store(Request $request){
         $validator = Validator::make($request->all(),$this->validation_rules(1),$this->validation_messages());
@@ -54,6 +54,16 @@ class ChildController extends MasterController
             return $this->sendError($e->getMessage());
         }
         $child=$this->model->create($data);
+        return $this->sendResponse(ChildResource::make($child));
+    }
+    public function update($id,Request $request){
+        $validator = Validator::make($request->all(),$this->validation_rules(2),$this->validation_messages());
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first());
+        }
+        $data=$request->all();
+        $child=$this->model->find($id);
+        $child->update($data);
         return $this->sendResponse(ChildResource::make($child));
     }
     public function destroy($id){

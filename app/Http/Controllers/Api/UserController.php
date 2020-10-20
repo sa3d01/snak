@@ -36,9 +36,8 @@ class UserController extends MasterController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first());
         }
-        $activation_code = rand(1111, 9999);
-        $this->send_code($request['mobile'],$activation_code);
-        return $this->sendResponse(['activation_code'=>$activation_code]);
+        $user=User::where('mobile',$request['mobile'])->first();
+        return $this->sendResponse(['registered'=>$user?true:false]);
     }
     public function register(Request $request){
         $validator = Validator::make($request->all(),$this->validation_rules(1),$this->validation_messages());
@@ -61,6 +60,14 @@ class UserController extends MasterController
         return $this->sendResponse($data)->withHeaders(['apiToken'=>$token,'tokenType'=>'bearer']);
     }
     public function login(Request $request){
+        $validator = Validator::make(
+            $request->all(),
+            ['mobile'=>'required|max:11|regex:/(01)[0-9]{9}/'],
+            $this->validation_messages())
+        ;
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first());
+        }
         $cred=[
             'mobile'=>$request['mobile'],
             'password'=>'123456'

@@ -48,6 +48,9 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::post('Break/{id}', 'BreakController@update')->name('Break.update');
     Route::resource('Break', 'BreakController');
 
+    Route::post('PromoCode/{id}', 'PromoCodeController@update')->name('PromoCode.update');
+    Route::resource('PromoCode', 'PromoCodeController');
+
     Route::resource('subscribe', 'SubscribeController');
     Route::get('subscribe/pay/{id}', 'SubscribeController@pay')->name('subscribe.pay');
     Route::resource('child', 'ChildController');

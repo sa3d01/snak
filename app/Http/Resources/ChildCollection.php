@@ -29,7 +29,11 @@ class ChildCollection extends ResourceCollection
             $arr['grade']=DropDownResource::make($obj->grade);
             $arr['school']=DropDownResource::make($obj->school);
             $arr['subscribed']=$subscribed;
-
+            $arr['birth_date']=$obj->birth_date ?? '';
+            $arr['child_like']=$obj->child_like ?? '';
+            $arr['child_dislike']=$obj->child_dislike ?? '';
+            $arr['health_warnings']=$obj->health_warnings ?? '';
+            $arr['additional_notes']=$obj->additional_notes ?? '';
             $data[]=$arr;
         }
         return $data;

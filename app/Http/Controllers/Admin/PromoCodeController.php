@@ -2,25 +2,29 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DropDown;
 use App\Package;
+use App\PromoCode;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class SchoolController extends MasterController
+class PromoCodeController extends MasterController
 {
-    public function __construct(DropDown $model)
+    public function __construct(PromoCode $model)
     {
         $this->model = $model;
-        $this->route = 'School';
+        $this->route = 'PromoCode';
         parent::__construct();
     }
 
     public function validation_func($method, $id = null)
     {
-        return ['name_ar' => 'required','name_en' => 'required'];
+        return [
+            'code' => 'required',
+            'percent' => 'required|numeric',
+            'count' => 'required|numeric'
+        ];
     }
 
     public function validation_msg()
@@ -32,32 +36,23 @@ class SchoolController extends MasterController
 
     public function index()
     {
-        $rows = $this->model->whereClass('School')->get();
+        $rows = $this->model->all();
         return View('dashboard.index.index', [
             'rows' => $rows,
-            'type'=>'School',
-            'title'=>'قائمة المدارس والحضانات',
-            'index_fields'=>['الاسم' => 'name','المستوى'=>'parent_id'],
-            'languages'=>true,
-            'status'=>true,
+            'type'=>'PromoCode',
+            'title'=>'قائمة كوبونات الخصم',
+            'index_fields'=>['ID'=>'id','كود الخصم' => 'code','نسبة الخصم %' => 'percent','عدد مرات الاستخدام'=>'count','عدد المرات المستخدمة'=>'used'],
         ]);
     }
 
     public function create()
     {
         return View('dashboard.create.create', [
-            'type'=>'package',
-            'action'=>'admin.School.store',
-            'title'=>'أضافة مدرسة أو حضانة',
-            'create_lang_fields'=>['الاسم' => 'name'],
-            'create_fields'=>[],
-            'selects'=>[
-                [
-                    'input_name'=>'parent_id',
-                    'rows'=>DropDown::whereClass('SchoolType')->get(),
-                    'title'=>'النوع'
-                ],
-            ],
+            'type'=>'PromoCode',
+            'action'=>'admin.PromoCode.store',
+            'title'=>'أضافة كوبون خصم',
+            'create_fields'=>['كود الخصم' => 'code','نسبة الخصم %' => 'percent','عدد مرات الاستخدام'=>'count'],
+
         ]);
     }
 
@@ -65,35 +60,26 @@ class SchoolController extends MasterController
     {
         $this->validate($request, $this->validation_func(1),$this->validation_msg());
         $data=$request->all();
-        $name['ar']=$request['name_ar'];
-        $name['en']=$request['name_en'];
-        $data['name']=$name;
-        $data['class']='School';
         $this->model->create($data);
-        return redirect()->route('admin.School.index')->with('created');
+        return redirect()->route('admin.PromoCode.index')->with('created');
     }
     public function update($id,Request $request)
     {
         $this->validate($request, $this->validation_func(2),$this->validation_msg());
         $data=$request->all();
-        $name['ar']=$request['name_ar'];
-        $name['en']=$request['name_en'];
-        $data['name']=$name;
         $this->model->find($id)->update($data);
         return redirect('admin/' . $this->route . '')->with('updated', 'تم التعديل بنجاح');
     }
 
     public function show($id)
     {
-        $row = DropDown::findOrFail($id);
+        $row = PromoCode::findOrFail($id);
         return View('dashboard.show.show', [
             'row' => $row,
-            'type'=>'School',
-            'action'=>'admin.School.update',
-            'title'=>'مدرسة أو حضانة',
-            'edit_fields'=>[],
-            'edit_lang_fields'=>['الاسم' => 'name'],
-            'status'=>true,
+            'type'=>'PromoCode',
+            'action'=>'admin.PromoCode.update',
+            'title'=>'كوبون خصم',
+            'edit_fields'=>['كود الخصم' => 'code','نسبة الخصم %' => 'percent','عدد مرات الاستخدام'=>'count'],
         ]);
     }
 
