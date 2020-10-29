@@ -30,14 +30,32 @@ class SchoolController extends MasterController
         );
     }
 
+    public function list($type)
+    {
+        if ($type=='nursery'){
+            $rows = $this->model->whereClass('School')->where('parent_id',1)->orderBy('order_by','asc')->get();
+            $title='قائمة الحضانات';
+        }else{
+            $rows = $this->model->whereClass('School')->where('parent_id',2)->orderBy('order_by','asc')->get();
+            $title='قائمة المدارس';
+        }
+        return View('dashboard.index.index', [
+            'rows' => $rows,
+            'type'=>'School',
+            'title'=>$title,
+            'index_fields'=>['الاسم' => 'name','المستوى'=>'parent_id', 'الرقم الترتيبى ' => 'order_by'],
+            'languages'=>true,
+            'status'=>true,
+        ]);
+    }
     public function index()
     {
-        $rows = $this->model->whereClass('School')->get();
+        $rows = $this->model->whereClass('School')->orderBy('order_by','asc')->get();
         return View('dashboard.index.index', [
             'rows' => $rows,
             'type'=>'School',
             'title'=>'قائمة المدارس والحضانات',
-            'index_fields'=>['الاسم' => 'name','المستوى'=>'parent_id'],
+            'index_fields'=>['الاسم' => 'name','المستوى'=>'parent_id', 'الرقم الترتيبى ' => 'order_by'],
             'languages'=>true,
             'status'=>true,
         ]);
@@ -58,6 +76,7 @@ class SchoolController extends MasterController
                     'title'=>'النوع'
                 ],
             ],
+            'order_by'=>true,
         ]);
     }
 
@@ -69,8 +88,13 @@ class SchoolController extends MasterController
         $name['en']=$request['name_en'];
         $data['name']=$name;
         $data['class']='School';
+        $maxValue = $this->model->whereClass('School')->orderBy('order_by', 'desc')->value('order_by');
+        $data['order_by']=$maxValue+1;
         $this->model->create($data);
-        return redirect()->route('admin.School.index')->with('created');
+        if ($request['parent_id']=='1'){
+            return redirect()->route('admin.School.list',['type'=>'nursery'])->with('created');
+        }
+        return redirect()->route('admin.School.list',['type'=>'school'])->with('created');
     }
     public function update($id,Request $request)
     {
@@ -79,8 +103,12 @@ class SchoolController extends MasterController
         $name['ar']=$request['name_ar'];
         $name['en']=$request['name_en'];
         $data['name']=$name;
-        $this->model->find($id)->update($data);
-        return redirect('admin/' . $this->route . '')->with('updated', 'تم التعديل بنجاح');
+        $row=$this->model->find($id);
+        $row->update($data);
+        if ($row->parent_id=='1'){
+            return redirect()->route('admin.School.list',['type'=>'nursery'])->with('updated', 'تم التعديل بنجاح');
+        }
+        return redirect()->route('admin.School.list',['type'=>'school'])->with('updated', 'تم التعديل بنجاح');
     }
 
     public function show($id)
@@ -94,6 +122,7 @@ class SchoolController extends MasterController
             'edit_fields'=>[],
             'edit_lang_fields'=>['الاسم' => 'name'],
             'status'=>true,
+            'order_by'=>true,
         ]);
     }
 

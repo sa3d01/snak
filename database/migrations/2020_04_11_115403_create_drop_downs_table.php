@@ -22,6 +22,7 @@ class CreateDropDownsTable extends Migration
             $table->char('image',20)->nullable();
             $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->foreign('parent_id')->references('id')->on('drop_downs');
+            $table->integer('order_by')->default(0);
             $table->json('more_details')->nullable();
             $table->timestamps();
         });

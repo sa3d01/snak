@@ -32,12 +32,12 @@ class BreakController extends MasterController
 
     public function index()
     {
-        $rows = $this->model->whereClass('Break')->get();
+        $rows = $this->model->whereClass('Break')->orderBy('order_by','asc')->get();
         return View('dashboard.index.index', [
             'rows' => $rows,
             'type'=>'Break',
             'title'=>'قائمة مواعيد التوصيل',
-            'index_fields'=>['الاسم' => 'name'],
+            'index_fields'=>['الاسم' => 'name', 'الرقم الترتيبى ' => 'order_by'],
             'languages'=>true,
             'status'=>true,
         ]);
@@ -51,6 +51,7 @@ class BreakController extends MasterController
             'title'=>'أضافة ميعاد',
             'create_lang_fields'=>['الاسم' => 'name'],
             'create_fields'=>[],
+            'order_by'=>true,
         ]);
     }
 
@@ -62,6 +63,8 @@ class BreakController extends MasterController
         $name['en']=$request['name_en'];
         $data['name']=$name;
         $data['class']='Break';
+        $maxValue = $this->model->whereClass('Break')->orderBy('order_by', 'desc')->value('order_by');
+        $data['order_by']=$maxValue+1;
         $this->model->create($data);
         return redirect()->route('admin.Break.index')->with('created');
     }
@@ -87,6 +90,7 @@ class BreakController extends MasterController
             'edit_fields'=>[],
             'edit_lang_fields'=>['الاسم' => 'name'],
             'status'=>true,
+            'order_by'=>true,
         ]);
     }
 

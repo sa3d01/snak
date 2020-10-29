@@ -29,17 +29,23 @@
                             </div>
                             <fieldset class="form-group">
                                     <div class="row">
+{{--                                        <div class="col-sm-12">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <label for=""> اللغات المستخدمة</label>--}}
+{{--                                                <select name="languages[]" class="form-control select2" multiple="true">--}}
+{{--                                                    <option value="ar" @if(in_array("ar",is_array($row->languages)? $row->languages:[])) selected="true" @endif>--}}
+{{--                                                        اللغة العربية--}}
+{{--                                                    </option>--}}
+{{--                                                    <option value="en" @if(in_array("en",is_array($row->languages)? $row->languages:[])) selected="true" @endif>--}}
+{{--                                                        اللغة الانجليزية--}}
+{{--                                                    </option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for=""> اللغات المستخدمة</label>
-                                                <select name="languages[]" class="form-control select2" multiple="true">
-                                                    <option value="ar" @if(in_array("ar",is_array($row->languages)? $row->languages:[])) selected="true" @endif>
-                                                        اللغة العربية
-                                                    </option>
-                                                    <option value="en" @if(in_array("en",is_array($row->languages)? $row->languages:[])) selected="true" @endif>
-                                                        اللغة الانجليزية
-                                                    </option>
-                                                </select>
+                                                <label for=""> عدد أيام الاعداد </label>
+                                                <input type="number" min="1" max="31" name="standby_days" value="{{$row->standby_days}}" class="form-control">
                                             </div>
                                         </div>
                                     </div>

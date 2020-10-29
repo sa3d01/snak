@@ -99,10 +99,16 @@ class UserController extends MasterController
         }
     }
     public function logout(Request $request){
+        $user=auth()->user();
+        $user->update([
+            'device'=>[
+                'id'=>null,
+                'type'=>null,
+            ]
+        ]);
         auth()->logout();
         return $this->sendResponse('');
     }
-
     public function profile(){
         $user = auth()->user();
         $token = auth()->login($user);
@@ -124,8 +130,8 @@ class UserController extends MasterController
                 'name' => 'nullable|string|max:100',
                 'mobile' => 'regex:/(01)[0-9]{9}/|nullable|string|max:11|unique:users,mobile,' . $id,
                 'email'=>'email|unique:users,email,' . $id,
-                'type' => 'required|string|in:Father,Mother',
-                'device' => 'required',
+                'type' => 'nullable|string|in:Father,Mother',
+                'device' => 'nullable',
             ];
         }
         return $rules;
@@ -141,15 +147,12 @@ class UserController extends MasterController
             'regex'=>'تأكد من أن رقم الجوال يبدأ 01 , ويحتوى على  احدى عشر رقم'
         );
     }
-    public function update($id,Request $request){
-        $validator = Validator::make($request->all(),$this->validation_rules(2,$id),$this->validation_messages());
+    public function update(Request $request){
+        $validator = Validator::make($request->all(),$this->validation_rules(2,$request->user()->id),$this->validation_messages());
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first());
         }
         $user = auth()->user();
-        if ($user->id != $id){
-            return $this->sendError('ﻻ يمكنك التعديل بملف شخص اخر',403);
-        }
         if ($request->device){
             $user->update([
                 'device'=>[

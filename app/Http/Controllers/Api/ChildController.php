@@ -37,10 +37,10 @@ class ChildController extends MasterController
         return $this->sendResponse(DropDownCollection::make(DropDown::active()->where('class','schoolType')->get()));
     }
     public function grades($id){
-        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'schoolGrade','parent_id'=>$id])->get()));
+        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'schoolGrade','parent_id'=>$id])->orderBy('order_by','asc')->get()));
     }
     public function schools($id){
-        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'School','parent_id'=>$id])->get()));
+        return $this->sendResponse(DropDownCollection::make(DropDown::active()->where(['class'=>'School','parent_id'=>$id])->orderBy('order_by','asc')->get()));
     }
     public function store(Request $request){
         $validator = Validator::make($request->all(),$this->validation_rules(1),$this->validation_messages());

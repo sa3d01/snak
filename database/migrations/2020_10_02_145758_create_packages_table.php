@@ -21,6 +21,8 @@ class CreatePackagesTable extends Migration
             $table->integer('price')->nullable();
             $table->string('color')->nullable();
             $table->boolean('status')->default(1);
+            $table->integer('period')->default(30);
+            $table->integer('user_promo_code')->default(0);
             $table->json('more_details')->nullable();
             $table->timestamps();
         });

@@ -12,7 +12,7 @@ class Setting extends Model
     private $route='setting';
     private $images_link='media/images/setting/';
 
-    protected $fillable = ['pages','contacts','socials','app_links','about','licence','more_details','languages'];
+    protected $fillable = ['pages','contacts','socials','app_links','about','licence','more_details','languages','standby_days'];
     protected $casts = [
         'more_details' => 'json',
         'pages' => 'array',

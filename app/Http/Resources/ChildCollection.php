@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Subscribe;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ChildCollection extends ResourceCollection
@@ -18,8 +19,16 @@ class ChildCollection extends ResourceCollection
         $data=[];
         foreach ($this as $obj){
             //pending,approved,rejected,unsubscribed
-            if (Subscribe::where('child_id',$obj->id)->first()){
-                $subscribed=Subscribe::where(['child_id'=>$obj->id])->latest()->value('status');
+            if (Subscribe::where('child_id',$obj->id)->latest()->first()){
+                $subscribe=Subscribe::where(['child_id'=>$obj->id])->latest()->first();
+                $last_subscribe_day=Carbon::parse(end($subscribe->value('more_details')['subscribed_days']));
+                if($last_subscribe_day<=Carbon::now()){
+                    $subscribed='unsubscribed';
+                }else{
+                    $subscribed = ($last_subscribe_day->diff(Carbon::now())->days <= 3)
+                        ? 'will_expire'
+                        : Subscribe::where(['child_id'=>$obj->id])->latest()->value('status');
+                }
             }else{
                 $subscribed='unsubscribed';
             }

@@ -179,6 +179,24 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                            @if($type=='package')
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for=""> عدد أيام الخدمة  </label>
+                                                        <input type="number" min="1" max="31" name="period" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <h3> امكانية استخدام بروموكود  </h3>
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="radio" id="1" name="use_promo_code" value="1" checked>
+                                                        <label for="1">نعم</label><br>
+                                                        <input class="form-control" type="radio" id="0" name="use_promo_code" value="0">
+                                                        <label for="0">ﻻ</label><br>
+
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </fieldset>
                                 <div class="form-buttons-w">

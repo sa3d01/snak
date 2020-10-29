@@ -35,8 +35,8 @@ class PackageController extends MasterController
         return View('dashboard.index.index', [
             'rows' => $rows,
             'type'=>'package',
-            'title'=>'قائمة الأقسام',
-            'index_fields'=>['الاسم' => 'name','التفاصيل' => 'note','سعر اليوم'=>'price','اللون'=>'color'],
+            'title'=>'قائمة الباقات',
+            'index_fields'=>['الاسم' => 'name','التفاصيل' => 'note','سعر اليوم'=>'price','اللون'=>'color','المدة'=>'period', 'الرقم الترتيبى ' => 'order_by'],
             'images'=>true,
             'languages'=>true,
             'status'=>true,
@@ -51,6 +51,7 @@ class PackageController extends MasterController
             'title'=>'أضافة باقة',
             'create_lang_fields'=>['الاسم' => 'name','التفاصيل' => 'note'],
             'create_fields'=>['سعر اليوم'=>'price','اللون'=>'color','الصور'=>'images'],
+            'order_by'=>true,
         ]);
     }
 
@@ -71,6 +72,8 @@ class PackageController extends MasterController
             $images[]=$filename;
         }
         $data['images']=$images;
+        $maxValue = $this->model->orderBy('order_by', 'desc')->value('order_by');
+        $data['order_by']=$maxValue+1;
         $this->model->create($data);
         return redirect()->route('admin.package.index')->with('created');
     }
@@ -108,6 +111,7 @@ class PackageController extends MasterController
             'edit_fields'=>['سعر اليوم'=>'price','اللون'=>'color','الصور'=>'images'],
             'edit_lang_fields'=>['الاسم' => 'name','التفاصيل' => 'note'],
             'status'=>true,
+            'order_by'=>true,
         ]);
     }
 

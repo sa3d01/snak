@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Subscribe;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChildResource extends JsonResource
@@ -16,8 +17,16 @@ class ChildResource extends JsonResource
     public function toArray($request)
     {
         //pending,approved,rejected,unsubscribed
-        if (Subscribe::where('child_id',$this->id)->first()){
-            $subscribed=Subscribe::where(['child_id'=>$this->id])->latest()->value('status');
+        if (Subscribe::where('child_id',$this->id)->latest()->first()){
+            $subscribe=Subscribe::where(['child_id'=>$this->id])->latest()->first();
+            $last_subscribe_day=Carbon::parse(end($subscribe->value('more_details')['subscribed_days']));
+            if($last_subscribe_day<=Carbon::now()){
+                $subscribed='unsubscribed';
+            }else{
+                $subscribed = ($last_subscribe_day->diff(Carbon::now())->days <= 3)
+                    ? 'will_expire'
+                    : Subscribe::where(['child_id'=>$this->id])->latest()->value('status');
+            }
         }else{
             $subscribed='unsubscribed';
         }

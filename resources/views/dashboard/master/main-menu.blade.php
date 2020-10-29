@@ -60,26 +60,27 @@
     <li class="sub-header">
         <span>البيانات العامة</span>
     </li>
+
     <li class=" has-sub-menu">
         <a href="#">
             <div class="icon-w">
-                <div class="os-icon os-icon-map"></div>
+                <div class="os-icon os-icon-cloud-snow"></div>
             </div>
-            <span>المستويات الدراسية</span></a>
+            <span>الحضانات</span></a>
         <div class="sub-menu-w">
             <div class="sub-menu-header">
-                المستويات الدراسية
+                الحضانات
             </div>
             <div class="sub-menu-icon">
-                <i class="os-icon os-icon-map"></i>
+                <i class="os-icon os-icon-cloud-snow"></i>
             </div>
             <div class="sub-menu-i">
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{route('admin.SchoolGrade.index')}}">قائمة البيانات</a>
+                        <a href="{{route('admin.School.list',['type'=>'nursery'])}}">قائمة الحضانات</a>
                     </li>
                     <li>
-                        <a href="{{route('admin.SchoolGrade.create')}}">اضافة </a>
+                        <a href="{{route('admin.SchoolGrade.list',['type'=>'nursery'])}}">قائمة المستويات الدراسية للحضانات </a>
                     </li>
                 </ul>
             </div>
@@ -90,10 +91,10 @@
             <div class="icon-w">
                 <div class="os-icon os-icon-book"></div>
             </div>
-            <span>المدارس والحضانات</span></a>
+            <span>المدارس</span></a>
         <div class="sub-menu-w">
             <div class="sub-menu-header">
-                المدارس والحضانات
+                المدارس
             </div>
             <div class="sub-menu-icon">
                 <i class="os-icon os-icon-book"></i>
@@ -101,15 +102,17 @@
             <div class="sub-menu-i">
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{route('admin.School.index')}}">قائمة البيانات</a>
+                        <a href="{{route('admin.School.list',['type'=>'school'])}}">قائمة المدارس</a>
                     </li>
                     <li>
-                        <a href="{{route('admin.School.create')}}">اضافة </a>
+                        <a href="{{route('admin.SchoolGrade.list',['type'=>'school'])}}">قائمة المستويات الدراسية للمدارس </a>
                     </li>
                 </ul>
             </div>
         </div>
     </li>
+
+
     <li class=" has-sub-menu">
         <a href="#">
             <div class="icon-w">
@@ -160,28 +163,7 @@
             </div>
         </div>
     </li>
-{{--    <li class=" has-sub-menu">--}}
-{{--        <a href="#">--}}
-{{--            <div class="icon-w">--}}
-{{--                <div class="os-icon os-icon-settings"></div>--}}
-{{--            </div>--}}
-{{--            <span>الاعدادات العامة</span></a>--}}
-{{--        <div class="sub-menu-w">--}}
-{{--            <div class="sub-menu-header">--}}
-{{--                الاعدادات العامة--}}
-{{--            </div>--}}
-{{--            <div class="sub-menu-icon">--}}
-{{--                <i class="os-icon os-icon-settings"></i>--}}
-{{--            </div>--}}
-{{--            <div class="sub-menu-i">--}}
-{{--                <ul class="sub-menu">--}}
-{{--                    <li>--}}
-{{--                        <a href="{{route('admin.setting')}}">عرض </a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </li>--}}
+
     <li class="sub-header">
         <span>الاشتراكات</span>
     </li>
@@ -243,6 +225,18 @@
                 <div class="os-icon os-icon-email-2-at"></div>
             </div>
             <span>رسائل الأعضاء</span>
+        </a>
+    </li>
+
+    <li class="sub-header">
+        <span>الاعدادات العامة</span>
+    </li>
+    <li class="sub-menu">
+        <a href="{{route('admin.setting')}}">
+            <div class="icon-w">
+                <div class="os-icon os-icon-server"></div>
+            </div>
+            <span>الاعدادات العامة</span>
         </a>
     </li>
 </ul>

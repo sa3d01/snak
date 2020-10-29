@@ -12,7 +12,7 @@ class DropDown extends Model
     private $route='drop_down';
     private $images_link='media/images/drop_down/';
 
-    protected $fillable = ['status','class','name','parent_id','image','more_details'];
+    protected $fillable = ['status','class','name','parent_id','order_by','image','more_details'];
     protected $casts = [
         'more_details' => 'json',
         'name' => 'json',

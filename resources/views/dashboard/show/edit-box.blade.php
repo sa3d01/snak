@@ -98,25 +98,6 @@
                                 </div>
                                 <br/>
                                 <div class="form-group" id="image_preview"></div>
-                            @elseif(substr($value, "-3")=='_id')
-                                @php
-                                    $marks=\App\DropDown::where(['class'=>'Mark','status'=>1])->get();
-                                @endphp
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label for=""> الماركة </label>
-                                        <select name="parent_id" class="form-control">
-                                            <option value="{{$row->parent->id}}">
-                                                {{$row->parent->name['ar']}}
-                                            </option>
-                                            @foreach($marks as $mark)
-                                                <option value="{{$mark->id}}">
-                                                    {{$mark->name['ar']}}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                             @elseif($value=='role')
                                 <div class="col-sm-12" id="roles">
                                     <div class="form-group">
@@ -178,6 +159,24 @@
                                 @endif
                             </div>
                             <br>
+                        @endif
+                        @if($type=='package')
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for=""> عدد أيام الخدمة  </label>
+                                    <input value="{{$row->period}}" type="number" min="1" max="31" name="period" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <h3> امكانية استخدام بروموكود  </h3>
+                                <div class="form-group">
+                                    <input class="form-control" type="radio" id="1" name="use_promo_code" value="1" @if($row->use_promo_code==1)checked @endif">
+                                    <label for="1">نعم</label><br>
+                                    <input class="form-control" type="radio" id="0" name="use_promo_code" value="0" @if($row->use_promo_code==0)checked @endif>
+                                    <label for="0">ﻻ</label><br>
+
+                                </div>
+                            </div>
                         @endif
                         @if(isset($address))
                             <div class="col-sm-12">

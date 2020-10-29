@@ -24,7 +24,7 @@ Route::group(['prefix' => 'v1','namespace'=>'Api'], function () {
         Route::post('/verify_mobile', 'UserController@verify_mobile');
         Route::post('/', 'UserController@register');
         Route::get('/profile', 'UserController@profile')->middleware(CheckApiToken::class);
-        Route::put('/{user}', 'UserController@update')->middleware(CheckApiToken::class);
+        Route::put('/', 'UserController@update')->middleware(CheckApiToken::class);
         Route::put('/{user}/update_token', 'UserController@update_token')->middleware(CheckApiToken::class);
         Route::post('/login', 'UserController@login');
         Route::get('/logout', 'UserController@logout')->middleware(CheckApiToken::class);
@@ -42,8 +42,8 @@ Route::group(['prefix' => 'v1','namespace'=>'Api'], function () {
     });
 
     Route::group(['prefix' => '/package'], function () {
-        Route::get('/', 'PackageController@index')->middleware(CheckApiToken::class);
-        Route::get('/{id}', 'PackageController@show')->middleware(CheckApiToken::class);
+        Route::get('/', 'PackageController@index');
+        Route::get('/{id}', 'PackageController@show');
     });
 
     Route::group(['prefix' => '/notification'], function () {

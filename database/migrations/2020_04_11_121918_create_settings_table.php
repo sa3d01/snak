@@ -15,6 +15,7 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('standby_days')->default(3);
             $table->json('about')->nullable();
             $table->json('licence')->nullable();
             $table->json('languages')->nullable();

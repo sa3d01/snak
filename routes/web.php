@@ -38,10 +38,12 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::resource('package', 'PackageController');
     Route::get('package/activate/{id}', 'PackageController@activate')->name('package.activate');
 
+    Route::get('SchoolGrade/{type}/list', 'SchoolGradeController@list')->name('SchoolGrade.list');
     Route::post('SchoolGrade/{id}', 'SchoolGradeController@update')->name('SchoolGrade.update');
     Route::resource('SchoolGrade', 'SchoolGradeController');
     Route::get('drop_down/activate/{id}', 'SchoolGradeController@activate')->name('drop_down.activate');
 
+    Route::get('School/{type}/list', 'SchoolController@list')->name('School.list');
     Route::post('School/{id}', 'SchoolController@update')->name('School.update');
     Route::resource('School', 'SchoolController');
 

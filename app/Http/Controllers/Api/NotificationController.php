@@ -30,7 +30,10 @@ class NotificationController extends MasterController
     }
     public function index()
     {
-        $notifies=new NotificationCollection($this->model->where('receiver_id',\request()->user()->id)->latest()->get());
+//        $notifies_query=$this->model->where('receiver_id',\request()->user()->id);
+//        $notifies_query=$this->model->whereIn('receivers',\request()->user()->id);
+        $notifies=new NotificationCollection($this->model->where('receiver_id',\request()->user()->id)->orWhereJsonContains('receivers',[\request()->user()->id])->latest()->get());
+
         $unread=$this->model->where('receiver_id',\request()->user()->id)->where('read','false')->count();
         $response = [
             'status' => 200,

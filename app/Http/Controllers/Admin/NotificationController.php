@@ -47,7 +47,7 @@ class NotificationController extends MasterController
         $android_msg = [
             'notification' => null,
             'data' => [
-                'title' => $title,
+                'title' => $note,
                 'body' => $note,
                 'status' => 'admin',
                 'type'=>'admin',
@@ -55,9 +55,9 @@ class NotificationController extends MasterController
             'priority' => 'high',
         ];
         $ios_msg = [
-            'notification' => array('title'=>$title, 'sound' => 'default'),
+            'notification' => array('title'=>$note, 'sound' => 'default'),
             'data' => [
-                'title' => $title,
+                'title' => $note,
                 'body' => $note,
                 'status' => 'admin',
                 'type'=>'admin',
