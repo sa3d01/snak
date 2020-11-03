@@ -31,6 +31,8 @@ class PackageResource extends JsonResource
             'note'=> $this->note[$this->lang()],
             'price'=>(double)$this->price,
             'color'=>$this->color,
+            'show_images'=>$this->show_images==0?false:true,
+            'delivery'=>$this->delivery==0?false:true,
             'images'=>$images
 
         ];

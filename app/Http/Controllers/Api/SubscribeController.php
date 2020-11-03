@@ -132,9 +132,9 @@ class SubscribeController extends MasterController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first());
         }
-        if (Subscribe::where(['child_id'=>$request['child_id'], 'status'=>'approved'])->first()){
-            return $this->sendError('باقتك الحالية لم تنتهى بعد');
-        }
+//        if (Subscribe::where(['child_id'=>$request['child_id'], 'status'=>'approved'])->first()){
+//            return $this->sendError('باقتك الحالية لم تنتهى بعد');
+//        }
         $standby_days=Setting::value('standby_days');
         $package=Package::find($request['package_id']);
         $package_period=$package->period;
@@ -191,24 +191,25 @@ class SubscribeController extends MasterController
         $promo_code = PromoCode::where('code', $request['promo_code'])->first();
         $package=Package::find($request['package_id']);
         if (!$promo_code) {
-            return $this->sendError('هذا الكود غير متاح');
+            return $this->sendError($request->header('lang')=='ar'?'هذا الكود غير متاح':'Invalid PromoCode');
         } elseif ($promo_code->count <= $promo_code->used) {
-            return $this->sendError('هذا الكود لم يعد صالحا');
+            return $this->sendError($request->header('lang')=='ar'?'هذا الكود غير متاح':'Invalid PromoCode');
         }elseif (!$package) {
-            return $this->sendError('هذا الكود غير صالح مع هذه الباقة');
+            return $this->sendError($request->header('lang')=='ar'?'هذا الكود غير متاح':'Invalid PromoCode for that package');
         } elseif ($package->use_promo_code!=1) {
-            return $this->sendError('هذا الكود غير صالح مع هذه الباقة');
+            return $this->sendError($request->header('lang')=='ar'?'هذا الكود غير متاح':'Invalid PromoCode for that package');
         } else {
             $children_ids=Child::where('parent_id',\request()->user()->id)->pluck('id');
             $subscribes=Subscribe::whereIn('child_id',$children_ids)->get();
             foreach ($subscribes as $subscribe){
                 if ($subscribe->promo_code_id == $promo_code->id){
-                    return $this->sendError('هذا الكود صالح لطفل واحد فقط');
+                    return $this->sendError($request->header('lang')=='ar'?'هذا الكود غير متاح':'Invalid PromoCode for many children');
                 }
             }
-//            return response()->json(['promo_code_id'=>$promo_code->id,'message'=>'هذا الكود صالح'], 200);
-
-            return $this->sendResponse(['promo_code_id'=>$promo_code->id,'message'=>'هذا الكود صالح']);
+            return $this->sendResponse([
+                'promo_code_id'=>$promo_code->id,
+                'message'=>$request->header('lang')=='ar'?'هذا الكود صالح':'valid PromoCode'
+            ]);
         }
     }
     public function subscribe_details($child_id){

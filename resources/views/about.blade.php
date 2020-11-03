@@ -32,26 +32,24 @@
   </div>
 
   <div class="content">
-    <p>We are an online food ordering service for school students you can place your order with an option of online payment or cash on delivery. We offer our services through desktops and mobile apps for iPhone, Android, iPad and windows.</p>
-
-    <p>Snackyards was founded in 2020 by a group of young entrepreneurs who took advantage of the online food ordering opportunity that existed in the Egypt market. later, we became a pioneer in the online food ordering service in the region.</p>
-
-    <p>We are based in Egypt operating across 7 countries: Egypt, Kingdom of Saudi Arabia, United Arab Emirates, Oman, Bahrain, Qatar and Jordan.</p>
-
-      <p>Our main aim is to become and remain the market leader in the MENA region by diversifying our services portfolio and providing best-in-class customer experience.;</p>
+    <p>
+        {{\App\Setting::value('about')['ar']}}
+    </p>
   </div>
 
   <div class="row  app-store-container">
-    <a href='https://play.google.com/store/?pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+    <a href='{{\App\Setting::value('app_links')['android']}}'>
       <img
         height="50"
         alt='Get it on Google Play'
         src='images/google-play.png'/>
     </a>
 
-    <a href='https://www.apple.com/shop'>
-      <img height="50"
-      alt='Get it on Google Play' src='images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg'/>
+    <a href='{{\App\Setting::value('app_links')['ios']}}'>
+      <img
+          height="50"
+          alt='Get it on app store'
+          src='images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg'/>
     </a>
 
 

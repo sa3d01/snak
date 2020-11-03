@@ -196,6 +196,26 @@
 
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-12">
+                                                    <h3> اظهار الصور  </h3>
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="radio" id="1" name="show_images" value="1" checked>
+                                                        <label for="1">نعم</label><br>
+                                                        <input class="form-control" type="radio" id="0" name="show_images" value="0">
+                                                        <label for="0">ﻻ</label><br>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <h3> مجانية التوصيل  </h3>
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="radio" id="1" name="delivery" value="1" checked>
+                                                        <label for="1">نعم</label><br>
+                                                        <input class="form-control" type="radio" id="0" name="delivery" value="0">
+                                                        <label for="0">ﻻ</label><br>
+
+                                                    </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </fieldset>

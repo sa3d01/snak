@@ -23,6 +23,8 @@ class CreatePackagesTable extends Migration
             $table->boolean('status')->default(1);
             $table->integer('period')->default(30);
             $table->integer('user_promo_code')->default(0);
+            $table->boolean('show_images')->default(0);
+            $table->boolean('delivery')->default(0);
             $table->json('more_details')->nullable();
             $table->timestamps();
         });

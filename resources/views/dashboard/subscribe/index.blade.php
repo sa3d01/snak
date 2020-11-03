@@ -33,6 +33,8 @@
                                 @foreach($selects as $select)
                                     <th>{{$select['title']}}</th>
                                 @endforeach
+                                <th>ولى الأمر</th>
+                                <th>العنوان</th>
                                 <th>عدد الأيام</th>
                                 <th>تاريخ الوجبة الأولى</th>
                                 <th>سعر الاشتراك</th>
@@ -49,6 +51,8 @@
                                 @foreach($selects as $select)
                                     <th>{{$select['title']}}</th>
                                 @endforeach
+                                <th>ولى الأمر</th>
+                                <th>العنوان</th>
                                 <th>عدد الأيام</th>
                                 <th>تاريخ الوجبة الأولى</th>
                                 <th>سعر الاشتراك</th>
@@ -75,8 +79,20 @@
                                     @endforeach
                                     @foreach($selects as $select)
                                         @php($related_model=$select['name'])
-                                        <td><a href="{{route('admin.'.$related_model.'.show',$row->$related_model->id)}}"> {{$row->$related_model ? $row->$related_model->nameForSelect() : ''}}</a></td>
+                                        <td>
+{{--                                            <a href="{{route('admin.'.$related_model.'.show',$row->$related_model->id)}}"> --}}
+                                                {{$row->$related_model ? $row->$related_model->nameForSelect() : ''}}
+{{--                                            </a>--}}
+                                        </td>
                                     @endforeach
+                                    <td>{{$row->child->parent->name}}</td>
+                                    <td>
+                                    @if($row->child->parent->address!=null)
+                                        @foreach($row->child->parent->address as $key=>$address)
+                                            {{$address}} ,
+                                        @endforeach
+                                    @endif
+                                    </td>
                                     <td>{{count($row->more_details['subscribed_days'])}} أيام </td>
                                     <td>{{$row->ArabicDate($row->more_details['first_day'])}}</td>
                                     <td>{{$row->more_details['subscribe_price']['price']}} جنيه </td>

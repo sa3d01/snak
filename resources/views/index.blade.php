@@ -27,17 +27,17 @@
   <img src="images/snackyards-logo.png" class="logo text-center" alt="snackyards-logo">
 </a>
   <div class="row  app-store-container">
-    <a href='https://play.google.com/store/?pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
-      <img
-        height="60"
-        alt='Get it on Google Play'
-        src='images/google-play.png'/>
-    </a>
+      <a href='{{\App\Setting::value('app_links')['android']}}'>
+          <img
+              height="50"
+              alt='Get it on Google Play'
+              src='images/google-play.png'/>
+      </a>
 
-    <a href='https://www.apple.com/shop'>
-      <img height="60"
-      alt='Get it on Google Play' src='images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg'/>
-    </a>
+      <a href='{{\App\Setting::value('app_links')['ios']}}'>
+          <img height="50"
+               alt='Get it on app store' src='images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg'/>
+      </a>
 
 
     <div class="nav-links">

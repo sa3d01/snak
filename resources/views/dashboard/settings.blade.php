@@ -29,23 +29,54 @@
                             </div>
                             <fieldset class="form-group">
                                     <div class="row">
-{{--                                        <div class="col-sm-12">--}}
-{{--                                            <div class="form-group">--}}
-{{--                                                <label for=""> اللغات المستخدمة</label>--}}
-{{--                                                <select name="languages[]" class="form-control select2" multiple="true">--}}
-{{--                                                    <option value="ar" @if(in_array("ar",is_array($row->languages)? $row->languages:[])) selected="true" @endif>--}}
-{{--                                                        اللغة العربية--}}
-{{--                                                    </option>--}}
-{{--                                                    <option value="en" @if(in_array("en",is_array($row->languages)? $row->languages:[])) selected="true" @endif>--}}
-{{--                                                        اللغة الانجليزية--}}
-{{--                                                    </option>--}}
-{{--                                                </select>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for=""> عدد أيام الاعداد </label>
                                                 <input type="number" min="1" max="31" name="standby_days" value="{{$row->standby_days}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for=""> رابط جوجل بلاي </label>
+                                                <input type="url" name="android" value="{{$row->app_links['android']}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for=""> رابط اب استور </label>
+                                                <input type="url" name="ios" value="{{$row->app_links['ios']}}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <i class="os-icon os-icon-file-text"></i>
+                                                <label> عن التطبيق باللغة العربية</label>
+                                                <textarea name="about_ar" class="form-control" cols="80" rows="5">{{$row->about['ar']}}</textarea>
+                                                <div class="help-block form-text with-errors form-control-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <i class="os-icon os-icon-file-text"></i>
+                                                <label> عن التطبيق باللغة الانجليزية</label>
+                                                <textarea name="about_en" class="form-control" cols="80" rows="5">{{$row->about['en']}}</textarea>
+                                                <div class="help-block form-text with-errors form-control-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <i class="os-icon os-icon-file-text"></i>
+                                                <label> شروط الاستخدام باللغة العربية </label>
+                                                <textarea name="licence_ar" class="form-control" cols="80" rows="5">{{$row->licence['ar']}}</textarea>
+                                                <div class="help-block form-text with-errors form-control-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <i class="os-icon os-icon-file-text"></i>
+                                                <label> شروط الاستخدام باللغة الانجليزية </label>
+                                                <textarea name="licence_en" class="form-control" cols="80" rows="5">{{$row->licence['en']}}</textarea>
+                                                <div class="help-block form-text with-errors form-control-feedback"></div>
                                             </div>
                                         </div>
                                     </div>

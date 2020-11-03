@@ -1,16 +1,16 @@
 <ul class="main-menu">
     <li class="sub-header">
-        <span>الأعضاء</span>
+        <span>أولياء الأمور</span>
     </li>
     <li class=" has-sub-menu">
         <a href="#">
             <div class="icon-w">
                 <div class="os-icon os-icon-user-male-circle"></div>
             </div>
-            <span>الأعضاء</span></a>
+            <span>أولياء الأمور</span></a>
         <div class="sub-menu-w">
             <div class="sub-menu-header">
-                الأعضاء
+                أولياء الأمور
             </div>
             <div class="sub-menu-icon">
                 <i class="os-icon os-icon-user-male-circle"></i>

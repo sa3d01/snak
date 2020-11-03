@@ -17,7 +17,7 @@
                     <h5 class="form-header">
                         {{$title}}
                     </h5>
-                    @if($type!='subscribe')
+                    @if($type!='subscribe' && $type!='user')
                     <div class="form-buttons-w">
                         <a href="{{route('admin.'.$type.'.create')}}" class="btn btn-primary create-submit" ><label>+</label> إضافة</a>
                     </div>
@@ -41,6 +41,10 @@
                                 @if(isset($image) || isset($images))
                                     <th>الصورة</th>
                                 @endif
+                                @if($type=='user')
+                                    <th>عدد الأطفال</th>
+                                    <th>العنوان</th>
+                                @endif
                                 <th>المزيد</th>
                             </tr>
                             </thead>
@@ -60,6 +64,10 @@
                                 @endif
                                 @if(isset($image) || isset($images))
                                     <th>الصورة</th>
+                                @endif
+                                @if($type=='user')
+                                    <th>عدد الأطفال</th>
+                                    <th>العنوان</th>
                                 @endif
                                 <th>المزيد</th>
                             </tr>
@@ -115,12 +123,25 @@
                                     @elseif(isset($images))
                                         <td><img style="border-radius: 10px;" width="50px" height="50px" src="{{asset('media/images/').'/'.$type.'/'.$row->images[0]}}"></td>
                                     @endif
+                                    @if($type=='user')
+                                        <td>{{count($row->children)}}</td>
+                                        <td>
+                                        @if($row->address!=null)
+                                            @foreach($row->address as $key=>$address)
+                                                    {{$address}} ,
+                                            @endforeach
+                                        @endif
+                                        </td>
+                                    @endif
+
                                     <td>
+                                        @if($type!='user')
                                         <div class=" row border-0">
                                             <div class="col-sm-3 mx-auto text-center">
                                                 <a href="{{route('admin.'.$type.'.show',$row->id)}}"><i class="os-icon os-icon-grid-10"></i></a>
                                             </div>
                                         </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

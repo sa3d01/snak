@@ -34,6 +34,8 @@ class PackageCollection extends ResourceCollection
             $arr['price']=(double)$obj->price;
             $arr['color']=$obj->color;
             $arr['images']=$images;
+            $arr['show_images']=$obj->show_images==0?false:true;
+            $arr['delivery']=$obj->delivery==0?false:true;
             $data[]=$arr;
             $images=[];
         }

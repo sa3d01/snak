@@ -12,7 +12,7 @@ class Package extends Model
     private $route='package';
     private $images_link='media/images/package/';
 
-    protected $fillable = ['name','note','price','images','color','status','period','order_by','use_promo_code','more_details'];
+    protected $fillable = ['name','note','price','images','color','status','period','order_by','use_promo_code','show_images','delivery','more_details'];
     protected $casts = [
         'more_details' => 'json',
         'name' => 'json',
