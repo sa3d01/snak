@@ -31,6 +31,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::get('admin/activate/{id}', 'AdminController@activate')->name('admin.activate');
 
     Route::post('user/{id}', 'UserController@update')->name('user.update');
+    Route::get('user/{id}/child', 'UserController@childs')->name('user.child');
+    Route::get('user/{user}/notification', 'NotificationController@single_notifications')->name('user.notify');
     Route::resource('user', 'UserController');
     Route::get('user/activate/{id}', 'UserController@activate')->name('user.activate');
 

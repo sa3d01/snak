@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Child;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +38,16 @@ class UserController extends MasterController
             'type'=>'user',
             'title'=>'قائمة أولياء الأمور',
             'index_fields'=>['الاسم' => 'name', 'الهاتف' => 'mobile'],
-//            'status'=>true,
-//            'image'=>true,
+        ]);
+    }
+    public function childs($id)
+    {
+        $rows = Child::where('parent_id',$id)->get();
+        return View('dashboard.index.index', [
+            'rows' => $rows,
+            'type'=>'child',
+            'title'=>'قائمة  الأطفال',
+            'index_fields'=>['الاسم' => 'name','المدرسة'=>'school_id','المستوى الدراسى'=>'grade_id'],
         ]);
     }
     public function create()
@@ -67,10 +76,9 @@ class UserController extends MasterController
             'type'=>'user',
             'action'=>'admin.user.update',
             'title'=>'الملف الشخصى',
-            'edit_fields'=>['الاسم' => 'name', 'البريد الإلكترونى' => 'email', 'الجوال' => 'mobile'],
+            'edit_fields'=>['نوع الهاتف' => 'device', 'الاسم' => 'name', 'البريد الإلكترونى' => 'email', 'الجوال' => 'mobile','النوع' => 'type','العنوان' => 'address'],
             'status'=>true,
-            'password'=>true,
-            'image'=>true,
+            'only_show'=>true,
         ]);
     }
     public function activate($id,Request $request){

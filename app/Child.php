@@ -34,4 +34,7 @@ class Child extends Model
     public function school(){
         return $this->belongsTo(DropDown::class,'school_id','id');
     }
+    public function subscribes(){
+        return $this->hasMany(Subscribe::class,'child_id','id');
+    }
 }

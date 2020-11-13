@@ -17,7 +17,7 @@
                     <h5 class="form-header">
                         {{$title}}
                     </h5>
-                    @if($type!='subscribe' && $type!='user')
+                    @if($type!='subscribe' && $type!='user'&& $type!='child')
                     <div class="form-buttons-w">
                         <a href="{{route('admin.'.$type.'.create')}}" class="btn btn-primary create-submit" ><label>+</label> إضافة</a>
                     </div>
@@ -124,7 +124,7 @@
                                         <td><img style="border-radius: 10px;" width="50px" height="50px" src="{{asset('media/images/').'/'.$type.'/'.$row->images[0]}}"></td>
                                     @endif
                                     @if($type=='user')
-                                        <td>{{count($row->children)}}</td>
+                                        <td><a href="{{route('admin.user.child',[$row->id])}}"> {{count($row->children)}} </a></td>
                                         <td>
                                         @if($row->address!=null)
                                             @foreach($row->address as $key=>$address)
@@ -135,13 +135,26 @@
                                     @endif
 
                                     <td>
-                                        @if($type!='user')
+{{--                                        @if($type!='user')--}}
                                         <div class=" row border-0">
+                                            <form class="delete" data-id="{{$row->id}}" method="POST" action="{{ route('admin.'.$type.'.destroy',[$row->id]) }}">
+                                                @csrf
+                                                {{ method_field('DELETE') }}
+                                                <input type="hidden" value="{{$row->id}}">
+                                                <button type="button" class="btn p-0 no-bg">
+                                                    <i class="os-icon os-icon-trash text-danger"></i>
+                                                </button>
+                                            </form>
                                             <div class="col-sm-3 mx-auto text-center">
                                                 <a href="{{route('admin.'.$type.'.show',$row->id)}}"><i class="os-icon os-icon-grid-10"></i></a>
                                             </div>
+                                            @if($type=='user')
+                                                <div class="col-sm-3 mx-auto text-center">
+                                                    <a href="{{route('admin.user.notify',$row->id)}}"><i class="os-icon os-icon-message-square"></i></a>
+                                                </div>
+                                            @endif
                                         </div>
-                                        @endif
+{{--                                        @endif--}}
                                     </td>
                                 </tr>
                             @endforeach
