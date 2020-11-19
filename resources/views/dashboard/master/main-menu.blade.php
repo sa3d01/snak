@@ -183,7 +183,9 @@
             <div class="sub-menu-i">
                 <ul class="sub-menu">
                     <li>
-                        <a href="{{route('admin.subscribe.index')}}">قائمة البيانات</a>
+                        <a href="{{route('admin.subscribe.index')}}">قائمة الاشتراكات</a>
+                        <a href="{{route('admin.subscribe.today')}}">قائمة اشتراكات اليوم</a>
+                        <a href="{{route('admin.subscribe.tomorrow')}}">قائمة اشتراكات الغد</a>
                     </li>
                 </ul>
             </div>

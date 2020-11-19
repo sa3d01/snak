@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'secret' => 'SlI9az6314QnQQbBIZuu8OHcrdsnGhwdX9APbPhr9p31iHbIL52pRdNYXDlpNKNy',
+    'secret' => '7QxbRGxReQ83bznZbg3tuN3TmQqYn6EPIgpRQ4AUmyhlLvISqymKBryeXIPvCxOb',
 
     /*
     |--------------------------------------------------------------------------
@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', 1440),
+    'ttl' =>129600,
 
     /*
     |--------------------------------------------------------------------------
@@ -120,7 +120,7 @@ return [
     |
     */
 
-    'refresh_ttl' => env('JWT_REFRESH_TTL', 20160),
+    'refresh_ttl' => 129600,
 
     /*
     |--------------------------------------------------------------------------

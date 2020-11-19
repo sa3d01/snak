@@ -52,15 +52,18 @@ trait ModelBaseFunctions
 
     public function getStatusIcon()
     {
-        if ($this->attributes['status'] === 'pending') {
+        if ($this->attributes['status'] === "pending") {
             $name = 'معلق';
             $key = 'warning';
-        } elseif ($this->attributes['status'] === 'approved') {
+        } elseif ($this->attributes['status'] === "approved") {
             $name = 'مشترك';
             $key = 'success';
-        }elseif ($this->attributes['status'] === 'rejected') {
+        }elseif ($this->attributes['status'] === "rejected") {
             $name = 'مرفوض';
             $key = 'danger';
+        }elseif ($this->attributes['status'] === "expired") {
+            $name = 'منتهى';
+            $key = 'info';
         }elseif ($this->attributes['status'] === 0) {
             $name = 'محظور';
             $key = 'danger';

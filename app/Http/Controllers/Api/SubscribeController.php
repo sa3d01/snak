@@ -50,8 +50,12 @@ class SubscribeController extends MasterController
         $promo_code=PromoCode::find($subscribe->promo_code_id);
         if ($promo_code){
             $percent=(int)$promo_code->percent;
-            $price=$real_price-($real_price*$percent/100);
+
             $discount=$real_price*$percent/100;
+            if ($discount>100){
+                $discount=100;
+            }
+            $price=$real_price-($discount);
         }
         return [
             'real_price'=>$real_price,
@@ -111,14 +115,24 @@ class SubscribeController extends MasterController
             $last_subscribed_days[]=$last_subscribed_days_obj;
         }
 
+//        if (($package->period>=30) && (count($subscribed_days)<11)){
+//            return $this->sendError('الحد الأدنى هو عشرة أيام فى هذه الباقة');
+//        }elseif (($package->period <= 7) && (count($subscribed_days) < 3)){
+//            return $this->sendError('الحد الأدنى هو ثلاثة أيام فى هذه الباقة');
+//        }
+
         $subscribe_price['real_price']=$package->price*(count($subscribed_days));
         $subscribe_price['price']=$package->price*(count($subscribed_days));
         $subscribe_price['discount']=0;
         $promo_code=PromoCode::find($request->promo_code_id);
         if ($promo_code){
             $percent=(int)$promo_code->percent;
-            $subscribe_price['price']=$subscribe_price['real_price']-($subscribe_price['real_price']*$percent/100);
-            $subscribe_price['discount']=$subscribe_price['real_price']*$percent/100;
+            $discount=$subscribe_price['real_price']*$percent/100;
+            if ($discount > 100){
+                $discount=100;
+            }
+            $subscribe_price['price']=$subscribe_price['real_price']-($discount);
+            $subscribe_price['discount']=$discount;
         }
         return $this->sendResponse([
             'package'=>PackageResource::make(Package::find($request['package_id'])),
@@ -187,6 +201,11 @@ class SubscribeController extends MasterController
         );
         if ($validate->fails()) {
             return response()->json(['status' => 400, 'msg' => $validate->errors()->first()],400);
+        }
+        if ($request->has('price')){
+            if ($request['price'] < 200){
+                return $this->sendError($request->header('lang')=='ar'?'هذا الكود غير متاح':'Invalid PromoCode');
+            }
         }
         $promo_code = PromoCode::where('code', $request['promo_code'])->first();
         $package=Package::find($request['package_id']);

@@ -101,6 +101,14 @@
                                     </td>
                                     <td>
                                         <div class=" row border-0">
+                                            <form class="delete" data-id="{{$row->id}}" method="POST" action="{{ route('admin.'.$type.'.destroy',[$row->id]) }}">
+                                                @csrf
+                                                {{ method_field('DELETE') }}
+                                                <input type="hidden" value="{{$row->id}}">
+                                                <button type="button" class="btn p-0 no-bg">
+                                                    <i class="os-icon os-icon-trash text-danger"></i>
+                                                </button>
+                                            </form>
                                             <div class="col-sm-3 mx-auto text-center">
                                                 <a href="{{route('admin.'.$type.'.show',$row->id)}}"><i class="os-icon os-icon-grid-10"></i></a>
                                             </div>

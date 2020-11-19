@@ -43,7 +43,7 @@ class ChildController extends MasterController
             'type'=>'child',
             'action'=>'admin.child.update',
             'title'=>'الملف الشخصى للطفل',
-            'edit_fields'=>['الاسم' => 'name','النوع '=>'gender','تاريخ الميلاد '=>'birth_date','أطعمة مفضلة'=>'child_like','أطعمة ضارة '=>'health_warnings','تفاصيل أخرى'=>'additional_notes'],
+            'edit_fields'=>['الاسم' => 'name','النوع '=>'gender','تاريخ الميلاد '=>'birth_date','أطعمة مفضلة'=>'child_like','أطعمة غير مفضلة'=>'child_dislike','أطعمة ضارة '=>'health_warnings','تفاصيل أخرى'=>'additional_notes'],
             'selects'=>[
                 [
                     'name'=>'school',

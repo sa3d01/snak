@@ -55,6 +55,8 @@ Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
     Route::post('PromoCode/{id}', 'PromoCodeController@update')->name('PromoCode.update');
     Route::resource('PromoCode', 'PromoCodeController');
 
+    Route::get('subscribe/tomorrow', 'SubscribeController@tomorrow')->name('subscribe.tomorrow');
+    Route::get('subscribe/today', 'SubscribeController@today')->name('subscribe.today');
     Route::resource('subscribe', 'SubscribeController');
     Route::get('subscribe/pay/{id}', 'SubscribeController@pay')->name('subscribe.pay');
     Route::resource('child', 'ChildController');

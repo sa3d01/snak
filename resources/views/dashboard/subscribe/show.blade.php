@@ -67,9 +67,9 @@
                                         <div class="col-sm-12">
                                             <div class="form-group" id="parent">
                                                 <label for=""> ولى الأمر</label>
-{{--                                                <a href="{{route('admin.user.show',$row->child->parent_id)}}">--}}
+                                                <a href="{{route('admin.user.show',$row->child->parent_id)}}">
                                                 <input disabled name="parent" class="form-control" value="{{$row->child->parent->name}}" type="text">
-{{--                                                </a>--}}
+                                                </a>
                                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                                             </div>
                                         </div>
@@ -85,9 +85,9 @@
                                         <div class="col-sm-12">
                                             <div class="form-group" id="child">
                                                 <label for="">  الطفل</label>
-{{--                                                <a href="{{route('admin.child.show',$row->child->id)}}">--}}
+                                                <a href="{{route('admin.child.show',$row->child->id)}}">
                                                 <input disabled name="child" class="form-control" value="{{$row->child->name}}" type="text">
-{{--                                                </a>--}}
+                                                </a>
                                                 <div class="help-block form-text with-errors form-control-feedback"></div>
                                             </div>
                                         </div>
